@@ -1,20 +1,40 @@
 package dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class JDBCUtil {
 	public static Connection getConnection() {
+		final String JDBC_CONFIG = "\\jdbc.properties";
+		Properties properties = new Properties();
+        InputStream inputStream = null;
+        
+        try {
+            inputStream = JDBCUtil.class.getClassLoader().getResourceAsStream(JDBC_CONFIG);
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        String username = properties.getProperty("jdbc.username");
+        String password = properties.getProperty("jdbc.password");
+        String url = properties.getProperty("jdbc.url");
+
 		Connection c = null;
-
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mySQL://localhost:3306/quanlycuahang";
-			String username = "root";
-			String password = "123456789";
-
 			c = DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
 			e.printStackTrace();

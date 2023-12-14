@@ -39,10 +39,13 @@ public class testJDBC {
 //		BillDAO.getInstance().insert(bill);
 //		System.out.println(BillDAO.getInstance().selectById(bill).toString());
 		
-		Bill bill = new Bill();
-		bill.setIDBill("3");
-		System.out.println(BillDAO.getInstance().selectById(bill).toString());
-		
+//		Bill bill = new Bill();
+//		bill.setIDBill("3");
+//		System.out.println(BillDAO.getInstance().selectById(bill).toString());
+//		
+		Connection c = JDBCUtil.getConnection();
+		JDBCUtil.printInfo(c);
+		JDBCUtil.closeConnection(c);
 	}
 
 }
