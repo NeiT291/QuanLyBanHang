@@ -64,7 +64,7 @@ public class BillDetailDAO implements DAOInterface<BillDetail>{
 		ArrayList<BillDetail> result = new ArrayList<BillDetail>();
 		try {
 			Connection c = JDBCUtil.getConnection();
-			String sql = "SELECT chitiethoadon.IDHoaDon, chitiethoadon.IDHangHoa, hanghoa.TenHangHoa, chitiethoadon.SoLuong  FROM chitiethoadon JOIN hanghoa WHERE chitiethoadon.IDHangHoa = hanghoa.IDHangHoa";
+			String sql = "SELECT chitiethoadon.IDHoaDon, chitiethoadon.IDHangHoa, hanghoa.TenHangHoa, hanghoa.DonGia, chitiethoadon.SoLuong  FROM chitiethoadon JOIN hanghoa WHERE chitiethoadon.IDHangHoa = hanghoa.IDHangHoa";
 			PreparedStatement preStatement = c.prepareStatement(sql);
 
 			ResultSet rs = preStatement.executeQuery();
@@ -74,6 +74,7 @@ public class BillDetailDAO implements DAOInterface<BillDetail>{
 				billDetail.setIDBill(rs.getString("IDHoaDon"));
 				billDetail.setIDProduct(rs.getString("IDHangHoa"));
 				billDetail.setNameProduct(rs.getString("TenHangHoa"));
+				billDetail.setPrice(rs.getInt("DonGia"));
 				billDetail.setQuantity(rs.getInt("SoLuong"));
 				result.add(billDetail);
 			}
@@ -93,7 +94,7 @@ public class BillDetailDAO implements DAOInterface<BillDetail>{
 		ArrayList<BillDetail> result = new ArrayList<BillDetail>();
 		try {
 			Connection c = JDBCUtil.getConnection();
-			String sql = "SELECT chitiethoadon.IDHoaDon, chitiethoadon.IDHangHoa, hanghoa.TenHangHoa, chitiethoadon.SoLuong  FROM chitiethoadon JOIN hanghoa WHERE chitiethoadon.IDHangHoa = hanghoa.IDHangHoa AND IDHoaDon = ?";
+			String sql = "SELECT chitiethoadon.IDHoaDon, chitiethoadon.IDHangHoa, hanghoa.TenHangHoa, hanghoa.DonGia, chitiethoadon.SoLuong  FROM chitiethoadon JOIN hanghoa WHERE chitiethoadon.IDHangHoa = hanghoa.IDHangHoa AND IDHoaDon = ?";
 			PreparedStatement preStatement = c.prepareStatement(sql);
 			preStatement.setString(1, t.getIDBill());
 			ResultSet rs = preStatement.executeQuery();
@@ -103,6 +104,7 @@ public class BillDetailDAO implements DAOInterface<BillDetail>{
 				billDetail.setIDBill(rs.getString("IDHoaDon"));
 				billDetail.setIDProduct(rs.getString("IDHangHoa"));
 				billDetail.setNameProduct(rs.getString("TenHangHoa"));
+				billDetail.setPrice(rs.getInt("DonGia"));
 				billDetail.setQuantity(rs.getInt("SoLuong"));
 				result.add(billDetail);
 			}
@@ -114,7 +116,6 @@ public class BillDetailDAO implements DAOInterface<BillDetail>{
 	}
 	@Override
 	public ArrayList<BillDetail> selectByCondition(String condition) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

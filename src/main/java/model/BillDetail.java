@@ -6,6 +6,7 @@ public class BillDetail {
 	private String IDBill;
 	private String IDProduct;
 	private String nameProduct;
+	private int price;
 	private int quantity;
 	
 	public BillDetail() {
@@ -13,10 +14,11 @@ public class BillDetail {
 	public BillDetail(String iDBill) {
 		this.IDBill = iDBill;
 	}
-	public BillDetail(String iDBill, String iDProduct, String nameProduct, int quantity) {
+	public BillDetail(String iDBill, String iDProduct, String nameProduct,int price, int quantity) {
 		this.IDBill = iDBill;
 		this.IDProduct = iDProduct;
 		this.nameProduct = nameProduct;
+		this.price = price;
 		this.quantity = quantity;
 	}
 
@@ -43,7 +45,12 @@ public class BillDetail {
 	public void setNameProduct(String nameProduct) {
 		this.nameProduct = nameProduct;
 	}
-
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	public int getQuantity() {
 		return quantity;
 	}
@@ -51,12 +58,10 @@ public class BillDetail {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
 	@Override
 	public String toString() {
-		return "BillDetail [IDBill=" + IDBill + ", IDProduct=" + IDProduct + ", nameProduct=" + nameProduct
-				+ ", quantity=" + quantity + "]";
+		return "BillDetail [IDBill=" + IDBill + ", IDProduct=" + IDProduct + ", nameProduct=" + nameProduct + ", price="
+				+ price + ", quantity=" + quantity + "]";
 	}
-	
 	
 }
