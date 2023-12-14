@@ -2,6 +2,9 @@ package test;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import javax.swing.UIManager;
+
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +18,7 @@ import model.Bill;
 import model.BillDetail;
 import model.Product;
 import model.User;
+import view.Login;
 
 public class testJDBC {
 
@@ -46,6 +50,9 @@ public class testJDBC {
 //		Connection c = JDBCUtil.getConnection();
 //		JDBCUtil.printInfo(c);
 //		JDBCUtil.closeConnection(c);
+		new Login();
+		
+        
 	}
 
 }
