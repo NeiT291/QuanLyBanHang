@@ -6,36 +6,50 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.LoginController;
+import dao.UserDAO;
 import model.User;
 
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.Action;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	private JTextField tF_Username;
-	private JTextField tF_Password;
-	
+	private JTextField TF_Username;
+	private JPasswordField PF_Password;
+	public User currentUser = new User();
 	public Login() {
+		this.Init();
+	}
+	
+	public void Init() {
+		setTitle("Đăng nhập");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.Init();
-		setVisible(true);
-	}
-	public void Init() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setTitle("Đăng nhập");
-		setLocationRelativeTo(null);
+		
+		Action action = new LoginController(this);
 		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -44,38 +58,51 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		tF_Username = new JTextField();
-		tF_Username.setFont(new Font("Roboto Mono", Font.PLAIN, 12));
-		tF_Username.setBounds(31, 71, 369, 25);
-		contentPane.add(tF_Username);
-		tF_Username.setColumns(10);
+		TF_Username = new JTextField();
+		TF_Username.setFont(new Font("Roboto Mono", Font.PLAIN, 12));
+		TF_Username.setBounds(31, 78, 380, 25);
+		TF_Username.setColumns(10);
+		contentPane.add(TF_Username);
 		
-		tF_Password = new JTextField();
-		tF_Password.setFont(new Font("Roboto Mono", Font.PLAIN, 12));
-		tF_Password.setColumns(10);
-		tF_Password.setBounds(31, 127, 369, 25);
-		contentPane.add(tF_Password);
+		JLabel LB_Username = new JLabel("Tài khoản");
+		LB_Username.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 12));
+		LB_Username.setBounds(31, 46, 65, 25);
+		contentPane.add(LB_Username);
 		
-		JButton btnNewButton = new JButton("ĐĂNG NHẬP");
-		btnNewButton.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 14));
-		btnNewButton.setBounds(148, 186, 137, 36);
-		contentPane.add(btnNewButton);
+		JLabel LB_Password = new JLabel("Mật khẩu");
+		LB_Password.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 12));
+		LB_Password.setBounds(31, 103, 58, 25);
+		contentPane.add(LB_Password);
 		
-		JLabel lblNewLabel = new JLabel("Tài khoản");
-		lblNewLabel.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 12));
-		lblNewLabel.setBounds(31, 46, 65, 25);
-		contentPane.add(lblNewLabel);
+		PF_Password = new JPasswordField();
+		PF_Password.setEchoChar('*');
+		PF_Password.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 12));
+		PF_Password.setBounds(32, 138, 379, 25);
+		contentPane.add(PF_Password);
 		
-		JLabel lblMtKhu = new JLabel("Mật khẩu");
-		lblMtKhu.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 12));
-		lblMtKhu.setBounds(31, 103, 58, 25);
-		contentPane.add(lblMtKhu);
+		JButton BTN_Login = new JButton("ĐĂNG NHẬP");
+		BTN_Login.setActionCommand("Login");
+		BTN_Login.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 14));
+		BTN_Login.setBounds(148, 186, 137, 36);
+		BTN_Login.addActionListener(action);
+		
+		contentPane.add(BTN_Login);
+		
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 	public User getUsernameAndPassword() {
-		User user = new User();
-		user.setUsername(tF_Username.getText());
-		user.setPassword(tF_Password.getText());
-		
-		return user;
+		char[] pass = PF_Password.getPassword();
+		currentUser.setUsername(TF_Username.getText());
+		currentUser.setPassword(String.valueOf(pass));
+		User userInDB = UserDAO.getInstance().selectByUsernameAndPassword(currentUser);
+		if(userInDB == null) {
+			System.out.println("Sai tai khoan mat khau");
+		}else {
+			currentUser = UserDAO.getInstance().selectById(userInDB);
+			System.out.println("Dang nhap thanh cong");
+			System.out.println(currentUser.toString());
+		}
+		return currentUser;
 	}
 }

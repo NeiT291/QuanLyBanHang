@@ -3,6 +3,7 @@ package test;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 import java.sql.Date;
@@ -51,8 +52,6 @@ public class testJDBC {
 //		JDBCUtil.printInfo(c);
 //		JDBCUtil.closeConnection(c);
 		new Login();
-		
-        
 	}
 
 }
