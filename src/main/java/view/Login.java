@@ -100,8 +100,8 @@ public class Login extends JFrame {
 			System.out.println("Sai tai khoan mat khau");
 		}else {
 			currentUser = UserDAO.getInstance().selectById(userInDB);
-			System.out.println("Dang nhap thanh cong");
-			System.out.println(currentUser.toString());
+			new Main(currentUser);
+			setVisible(false);
 		}
 		return currentUser;
 	}
