@@ -28,6 +28,7 @@ import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 import controller.MainController;
+import dao.BillDAO;
 import dao.ProductDAO;
 
 import java.awt.Color;
@@ -422,7 +423,7 @@ public class Main extends JFrame {
 				listProduct.add(billDetail);
 			}
 			bill.setListProduct(listProduct);
-//			BillDAO.getInstance().insert(bill);
+			BillDAO.getInstance().insert(bill);
 			printBill(bill);
 			JOptionPane.showMessageDialog(null, "Thanh toán thành công", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
 			
