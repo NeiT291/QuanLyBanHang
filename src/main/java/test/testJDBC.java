@@ -20,6 +20,7 @@ import model.BillDetail;
 import model.Product;
 import model.User;
 import view.Login;
+import view.Main;
 
 public class testJDBC {
 
@@ -51,7 +52,10 @@ public class testJDBC {
 //		Connection c = JDBCUtil.getConnection();
 //		JDBCUtil.printInfo(c);
 //		JDBCUtil.closeConnection(c);
-		new Login();
+		Date date = Date.valueOf("2023-2-3");
+		User user = new User("2023712123050", "giaptien2", "123", "Giap Hoang Viet Tien", true, date, "123456789", "BG", true);
+		UserDAO.getInstance().delete(user);
+//		new Login();
 	}
 
 }

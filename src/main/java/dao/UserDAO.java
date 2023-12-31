@@ -23,13 +23,13 @@ public class UserDAO implements DAOInterface<User> {
 			String insertThongTinNhanVien = "INSERT INTO thongtinnhanvien() VALUES(?, ?, ?, ?, ?, ?)";
 			
 			PreparedStatement preSateInsertTK = c.prepareStatement(insertTaiKhoan);
-			preSateInsertTK.setInt(1, t.getId());
+			preSateInsertTK.setString(1, t.getId());
 			preSateInsertTK.setString(2, t.getUsername());
 			preSateInsertTK.setString(3, t.getPassword());
-			preSateInsertTK.setBoolean(4, false);
+			preSateInsertTK.setBoolean(4, t.isAdmin());
 			
 			PreparedStatement preSateInsertTTNV = c.prepareStatement(insertThongTinNhanVien);
-			preSateInsertTTNV.setInt(1, t.getId());
+			preSateInsertTTNV.setString(1, t.getId());
 			preSateInsertTTNV.setString(2, t.getFullName());
 			preSateInsertTTNV.setBoolean(3, t.isSex());
 			preSateInsertTTNV.setDate(4,t.getBirthDay());
@@ -56,7 +56,7 @@ public class UserDAO implements DAOInterface<User> {
 			PreparedStatement preSateInsertTK = c.prepareStatement(updateTaiKhoan);
 			preSateInsertTK.setString(1, t.getUsername());
 			preSateInsertTK.setString(2, t.getPassword());
-			preSateInsertTK.setInt(3, t.getId());
+			preSateInsertTK.setString(3, t.getId());
 			
 			PreparedStatement preSateInsertTTNV = c.prepareStatement(updateThongTinNhanVien);
 			preSateInsertTTNV.setString(1, t.getFullName());
@@ -64,7 +64,7 @@ public class UserDAO implements DAOInterface<User> {
 			preSateInsertTTNV.setDate(3,t.getBirthDay());
 			preSateInsertTTNV.setString(4, t.getPhone());
 			preSateInsertTTNV.setString(5, t.getAddress());
-			preSateInsertTTNV.setInt(6, t.getId());
+			preSateInsertTTNV.setString(6, t.getId());
 			
 			result = preSateInsertTK.executeUpdate() + preSateInsertTTNV.executeUpdate();
 			
@@ -85,8 +85,8 @@ public class UserDAO implements DAOInterface<User> {
 			PreparedStatement preSateDeleteTTNV = c.prepareStatement(deleteTTNV);
 			PreparedStatement preSateDeleteTK = c.prepareStatement(deleteTK);
 			
-			preSateDeleteTK.setInt(1, t.getId());
-			preSateDeleteTTNV.setInt(1, t.getId());
+			preSateDeleteTK.setString(1, t.getId());
+			preSateDeleteTTNV.setString(1, t.getId());
 			result = preSateDeleteTTNV.executeUpdate() + preSateDeleteTK.executeUpdate();
 			
 			JDBCUtil.closeConnection(c);
@@ -110,7 +110,7 @@ public class UserDAO implements DAOInterface<User> {
 			
 			while(rs.next()) {
 				User user = new User();
-				user.setId(rs.getInt("IDNhanVien"));
+				user.setId(rs.getString("IDNhanVien"));
 				user.setUsername(rs.getString("Username"));
 				user.setPassword(rs.getString("Password"));
 				user.setFullName(rs.getString("HoVaTen"));
@@ -141,13 +141,13 @@ public class UserDAO implements DAOInterface<User> {
 			
 			PreparedStatement preStatement = c.prepareStatement(sql);
 			
-			preStatement.setInt(1, t.getId());
+			preStatement.setString(1, t.getId());
 			
 			ResultSet rs = preStatement.executeQuery();
 			
 			while(rs.next()) {
 				User user = new User();
-				user.setId(rs.getInt("IDNhanVien"));
+				user.setId(rs.getString("IDNhanVien"));
 				user.setUsername(rs.getString("Username"));
 				user.setPassword(rs.getString("Password"));
 				user.setFullName(rs.getString("HoVaTen"));
@@ -180,7 +180,7 @@ public class UserDAO implements DAOInterface<User> {
 			
 			while(rs.next()) {
 				User user = new User();
-				user.setId(rs.getInt("IDNhanVien"));
+				user.setId(rs.getString("IDNhanVien"));
 				user.setUsername(rs.getString("Username"));
 				user.setPassword(rs.getString("Password"));
 				user.setAdmin(rs.getBoolean("isAdmin"));

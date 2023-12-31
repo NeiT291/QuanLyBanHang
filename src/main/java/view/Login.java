@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,18 +9,13 @@ import dao.UserDAO;
 import model.User;
 
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.Action;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JPasswordField;
 
@@ -91,17 +84,18 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	public User getUsernameAndPassword() {
+	public User login() {
+		
 		char[] pass = PF_Password.getPassword();
 		currentUser.setUsername(TF_Username.getText());
 		currentUser.setPassword(String.valueOf(pass));
 		User userInDB = UserDAO.getInstance().selectByUsernameAndPassword(currentUser);
 		if(userInDB == null) {
-			System.out.println("Sai tai khoan mat khau");
+			JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu !!!","Lỗi", JOptionPane.ERROR_MESSAGE);
 		}else {
 			currentUser = UserDAO.getInstance().selectById(userInDB);
 			new Main(currentUser);
-			setVisible(false);
+			this.dispose();
 		}
 		return currentUser;
 	}

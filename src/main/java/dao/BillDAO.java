@@ -23,7 +23,7 @@ public class BillDAO implements DAOInterface<Bill>{
 			
 			PreparedStatement preSateInsertHD = c.prepareStatement(insertHoaDon);
 			preSateInsertHD.setString(1, t.getIDBill());
-			preSateInsertHD.setInt(2, t.getIDUser());
+			preSateInsertHD.setString(2, t.getIDUser());
 			preSateInsertHD.setString(3, t.getDateTime());
 			preSateInsertHD.setInt(4, t.getDiscount());
 			preSateInsertHD.setInt(5, t.getTotalPrice());
@@ -83,7 +83,7 @@ public class BillDAO implements DAOInterface<Bill>{
 			while(rs.next()) {
 				Bill bill = new Bill();
 				bill.setIDBill(rs.getString("IDHoaDon"));
-				bill.setIDUser(rs.getInt("IDNhanVien"));
+				bill.setIDUser(rs.getString("IDNhanVien"));
 				bill.setDateTime(rs.getString("ThoiGian"));
 				bill.setDiscount(rs.getInt("GiamGia"));
 				bill.setTotalPrice(rs.getInt("TongTien"));
@@ -117,7 +117,7 @@ public class BillDAO implements DAOInterface<Bill>{
 			while(rs.next()) {
 				Bill bill = new Bill();
 				bill.setIDBill(rs.getString("IDHoaDon"));
-				bill.setIDUser(rs.getInt("IDNhanVien"));
+				bill.setIDUser(rs.getString("IDNhanVien"));
 				bill.setDateTime(rs.getString("ThoiGian"));
 				bill.setDiscount(rs.getInt("GiamGia"));
 				bill.setTotalPrice(rs.getInt("TongTien"));

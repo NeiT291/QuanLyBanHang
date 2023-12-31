@@ -3,7 +3,7 @@ package model;
 import java.sql.Date;
 
 public class User {
-	private int id;
+	private String id;
 	private String username;
 	private String password;
 	private String fullName;
@@ -17,7 +17,7 @@ public class User {
 		
 	}
 
-	public User(int id, String username, String password, String fullName, boolean sex, Date birthDay, String phone, String address, boolean isAdmin) {
+	public User(String id, String username, String password, String fullName, boolean sex, Date birthDay, String phone, String address, boolean isAdmin) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -29,11 +29,11 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

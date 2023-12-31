@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Bill {
 	private String IDBill;
-	private int IDUser;
+	private String IDUser;
 	private ArrayList<BillDetail> listProduct;
 	private String dateTime;
 	private int discount;
@@ -16,7 +16,7 @@ public class Bill {
 		this.dateTime = this.autoGenDateTime();
 	}
 	
-	public Bill(String iDBill, int iDUser, ArrayList<BillDetail> listProduct, int discount, int totalPrice) {
+	public Bill(String iDBill, String iDUser, ArrayList<BillDetail> listProduct, int discount, int totalPrice) {
 		this.IDBill = iDBill;
 		this.IDUser = iDUser;
 		this.listProduct = listProduct;
@@ -31,10 +31,10 @@ public class Bill {
 	public void setIDBill(String iDBill) {
 		IDBill = iDBill;
 	}
-	public int getIDUser() {
+	public String getIDUser() {
 		return IDUser;
 	}
-	public void setIDUser(int iDUser) {
+	public void setIDUser(String iDUser) {
 		IDUser = iDUser;
 	}
 	

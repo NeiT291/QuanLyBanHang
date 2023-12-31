@@ -1,27 +1,29 @@
 package controller;
 
-
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 
-import view.Login;
+import view.Main;
 
-public class LoginController implements Action{
-	private Login view;
+public class MainController implements Action{
+	private Main view;
 	
-	public LoginController(Login view) {
+	public MainController(Main view) {
 		this.view = view;
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		if(command.equals("Login")) {
-			view.login();
+		System.out.println(command);
+		if(command.equals("Exit")) {
+			view.exitProgram();
+		}else if(command.equals("Logout")) {
+			view.logOut();
+		}else if(command.equals("AddUser")) {
+			view.addUser();
 		}
-		
 	}
 
 	@Override
@@ -59,6 +61,5 @@ public class LoginController implements Action{
 		// TODO Auto-generated method stub
 		
 	}
-	
 
 }
