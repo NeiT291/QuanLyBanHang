@@ -48,13 +48,7 @@ public class Bill {
 	public String getDateTime() {
 		return dateTime;
 	}
-	public String autoGenDateTime() {
-		LocalDateTime myDateObj = LocalDateTime.now();
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	    String formattedDate = myDateObj.format(myFormatObj);
-
-		return formattedDate;
-	}
+	
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
@@ -70,7 +64,13 @@ public class Bill {
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	public String autoGenDateTime() {
+		LocalDateTime myDateObj = LocalDateTime.now();
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = myDateObj.format(myFormatObj);
 
+		return formattedDate;
+	}
 	@Override
 	public String toString() {
 		return "Bill [IDBill=" + IDBill + ", IDUser=" + IDUser + ", listProduct=" + listProduct + ", dateTime="

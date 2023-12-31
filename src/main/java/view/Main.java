@@ -20,6 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 import controller.MainController;
+import java.awt.Color;
 
 public class Main extends JFrame {
 
@@ -63,22 +64,22 @@ public class Main extends JFrame {
 		}
 		JP_Info.setLayout(null);
 		LB_Info_Role.setHorizontalAlignment(SwingConstants.LEFT);
-		LB_Info_Role.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		LB_Info_Role.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 18));
 		JP_Info.add(LB_Info_Role);
 		
 		JLabel LB_Info_FullName = new JLabel();
-		LB_Info_FullName.setBounds(342, 0, 532, 75);
+		LB_Info_FullName.setBounds(393, 0, 481, 75);
 		LB_Info_FullName.setText("Họ và tên: " + user.getFullName());
 		LB_Info_FullName.setHorizontalAlignment(SwingConstants.LEFT);
-		LB_Info_FullName.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		LB_Info_FullName.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 18));
 		JP_Info.add(LB_Info_FullName);
 		
 		JLabel LB_Info_ID = new JLabel();
-		LB_Info_ID.setBounds(10, 0, 322, 75);
+		LB_Info_ID.setBounds(10, 0, 373, 75);
 		JP_Info.add(LB_Info_ID);
 		LB_Info_ID.setText("Mã nhân viên: " + user.getId());
 		LB_Info_ID.setHorizontalAlignment(SwingConstants.LEFT);
-		LB_Info_ID.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		LB_Info_ID.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 18));
 		contentPane.add(JP_Info);
 		
 		JPanel JP_Search = new JPanel();
@@ -137,21 +138,37 @@ public class Main extends JFrame {
 		JP_Pay.setLayout(null);
 		
 		JTextField TF_Sale = new JTextField();
+		TF_Sale.setHorizontalAlignment(SwingConstants.RIGHT);
+		TF_Sale.setFont(new Font("Arial", Font.PLAIN, 18));
+		TF_Sale.setText("0");
 		TF_Sale.setColumns(10);
 		TF_Sale.setBounds(480, 75, 200, 40);
 		JP_Pay.add(TF_Sale);
 		
 		JTextField TF_TotalPrice = new JTextField();
+		TF_TotalPrice.setHorizontalAlignment(SwingConstants.RIGHT);
+		TF_TotalPrice.setBackground(Color.WHITE);
+		TF_TotalPrice.setEditable(false);
+		TF_TotalPrice.setFont(new Font("Arial", Font.PLAIN, 18));
+		TF_TotalPrice.setText("0");
 		TF_TotalPrice.setColumns(10);
 		TF_TotalPrice.setBounds(249, 75, 200, 40);
 		JP_Pay.add(TF_TotalPrice);
 		
 		JTextField TF_GuestCash = new JTextField();
+		TF_GuestCash.setHorizontalAlignment(SwingConstants.RIGHT);
+		TF_GuestCash.setFont(new Font("Arial", Font.PLAIN, 18));
+		TF_GuestCash.setText("0");
 		TF_GuestCash.setColumns(10);
 		TF_GuestCash.setBounds(10, 75, 200, 40);
 		JP_Pay.add(TF_GuestCash);
 		
 		JTextField TF_Change = new JTextField();
+		TF_Change.setHorizontalAlignment(SwingConstants.RIGHT);
+		TF_Change.setBackground(Color.WHITE);
+		TF_Change.setEditable(false);
+		TF_Change.setFont(new Font("Arial", Font.PLAIN, 18));
+		TF_Change.setText("0");
 		TF_Change.setColumns(10);
 		TF_Change.setBounds(704, 75, 200, 40);
 		JP_Pay.add(TF_Change);

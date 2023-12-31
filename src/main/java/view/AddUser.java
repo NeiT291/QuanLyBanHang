@@ -8,41 +8,49 @@ import javax.swing.border.EmptyBorder;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
+import dao.UserDAO;
+import model.User;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.Calendar;
 import javax.swing.JRadioButton;
+import javax.swing.JButton;
+import java.awt.Color;
+
 
 public class AddUser extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-
+	private JTextField TF_ID;
+	private JTextField TF_Username;
+	private JTextField TF_Password;
+	private JTextField TF_FullName;
+	private JComboBox<String> sexChooser;
+	private DatePicker datePicker;
+	private JTextField TF_Phone;
+	private JTextField TF_Andress;
+	private JRadioButton RBTN_IsAdmin;
 	public AddUser() {
 		this.Init();
 	}
 	public void Init() {
+		setType(Type.POPUP);
+		setResizable(false);
 		setTitle("Thêm nhân viên");
-		setSize(600, 700);
+		setSize(600, 606);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -106,52 +114,58 @@ public class AddUser extends JFrame {
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	    String formattedDate = myDateObj.format(myFormatObj);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 15));
-		textField.setEditable(false);
-		textField.setText(formattedDate);
-		textField.setBounds(178, 14, 398, 40);
-		JP_Info.add(textField);
-		textField.setColumns(10);
+		TF_ID = new JTextField();
+		TF_ID.setBackground(Color.WHITE);
+		TF_ID.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_ID.setEditable(false);
+		TF_ID.setBounds(178, 14, 390, 40);
+		JP_Info.add(TF_ID);
+		TF_ID.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(178, 64, 398, 40);
-		JP_Info.add(textField_1);
+		TF_Username = new JTextField();
+		TF_Username.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_Username.setColumns(10);
+		TF_Username.setBounds(178, 64, 390, 40);
+		JP_Info.add(TF_Username);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(178, 118, 398, 40);
-		JP_Info.add(textField_2);
+		TF_Password = new JTextField();
+		TF_Password.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_Password.setColumns(10);
+		TF_Password.setBounds(178, 118, 390, 40);
+		JP_Info.add(TF_Password);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(178, 172, 398, 40);
-		JP_Info.add(textField_3);
+		TF_FullName = new JTextField();
+		TF_FullName.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_FullName.setColumns(10);
+		TF_FullName.setBounds(178, 172, 390, 40);
+		JP_Info.add(TF_FullName);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(178, 338, 398, 40);
-		JP_Info.add(textField_4);
+		TF_Phone = new JTextField();
+		TF_Phone.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_Phone.setColumns(10);
+		TF_Phone.setBounds(178, 338, 390, 40);
+		JP_Info.add(TF_Phone);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(178, 388, 398, 40);
-		JP_Info.add(textField_5);
+		TF_Andress = new JTextField();
+		TF_Andress.setFont(new Font("Arial", Font.PLAIN, 16));
+		TF_Andress.setColumns(10);
+		TF_Andress.setBounds(178, 388, 390, 40);
+		JP_Info.add(TF_Andress);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
-		comboBox.setBounds(178, 225, 78, 40);
-		JP_Info.add(comboBox);
+		sexChooser = new JComboBox<String>();
+		sexChooser.setFont(new Font("Arial", Font.PLAIN, 18));
+		sexChooser.setModel(new DefaultComboBoxModel<String>(new String[] {"Nam", "Nữ"}));
+		sexChooser.setBounds(178, 235, 78, 28);
+		JP_Info.add(sexChooser);
 		
 		DatePickerSettings dateSettings = new DatePickerSettings();
 		dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
-		dateSettings.setFontValidDate(new Font("Roboto Mono SemiBold", Font.PLAIN, 15));
+		dateSettings.setFontValidDate(new Font("Arial", Font.PLAIN, 20));
 		dateSettings.setVisibleTodayButton(false);
 		dateSettings.setVisibleClearButton(false);
 		
-		DatePicker datePicker = new DatePicker(dateSettings);
+		datePicker = new DatePicker(dateSettings);
+		datePicker.getComponentDateTextField().setFont(new Font("Arial", Font.PLAIN, 16));
 		datePicker.setDateToToday();
 		datePicker.getComponentDateTextField().setEditable(false);
 
@@ -160,13 +174,65 @@ public class AddUser extends JFrame {
 		
 		JP_Info.add(datePicker);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Quản lý");
-		rdbtnNewRadioButton.setFont(new Font("Arial", Font.PLAIN, 18));
-		rdbtnNewRadioButton.setBounds(178, 452, 87, 21);
-		JP_Info.add(rdbtnNewRadioButton);
+		RBTN_IsAdmin = new JRadioButton("Quản lý");
+		RBTN_IsAdmin.setHorizontalAlignment(SwingConstants.CENTER);
+		RBTN_IsAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
+		RBTN_IsAdmin.setBounds(167, 445, 95, 21);
+		RBTN_IsAdmin.setFocusable(false);
+		JP_Info.add(RBTN_IsAdmin);
+		if(RBTN_IsAdmin.isSelected()) {
+			TF_ID.setText("1" + formattedDate);
+		}else {
+			TF_ID.setText("0" + formattedDate);
+		}
 		
-		
+		JButton BTN_AddUser = new JButton("Thêm");
+		BTN_AddUser.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_AddUser.setBounds(230, 504, 101, 41);
+		BTN_AddUser.setFocusable(false);
+		contentPane.add(BTN_AddUser);
+		BTN_AddUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addUser();
+				
+			}
+		});
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	public void addUser() {
+		if(!vaildate()) {
+			JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin !!!","Lỗi", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		boolean sex = false;
+		if(sexChooser.getSelectedItem() == "Nam") {
+			sex = true;
+		}
+		Date birthDay = Date.valueOf(datePicker.getDate());
+		User user = new User(TF_ID.getText(), TF_Username.getText(), TF_Password.getText(), TF_FullName.getText(), sex, birthDay, TF_Phone.getText(), TF_Andress.getText(), RBTN_IsAdmin.isSelected());
+		int result = UserDAO.getInstance().insert(user);
+		if(result > 0) {
+			JOptionPane.showMessageDialog(null, "Thêm thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			this.dispose();
+		}
+	}
+	public boolean vaildate() {
+		if(TF_Username.getText().length() == 0) {
+			return false;
+		}
+		if(TF_Password.getText().length() == 0) {
+			return false;
+		}
+		if(TF_FullName.getText().length() == 0) {
+			return false;
+		}
+		if(TF_Phone.getText().length() == 0) {
+			return false;
+		}
+		if(TF_Andress.getText().length() == 0) {
+			return false;
+		}
+		return true;
 	}
 }

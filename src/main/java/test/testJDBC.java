@@ -52,10 +52,10 @@ public class testJDBC {
 //		Connection c = JDBCUtil.getConnection();
 //		JDBCUtil.printInfo(c);
 //		JDBCUtil.closeConnection(c);
-		Date date = Date.valueOf("2023-2-3");
-		User user = new User("2023712123050", "giaptien2", "123", "Giap Hoang Viet Tien", true, date, "123456789", "BG", true);
-		UserDAO.getInstance().delete(user);
-//		new Login();
+//		Date date = Date.valueOf("2023-2-3");
+//		User user = new User("2023712123020", "giaptien2", "123", "Giáp Hoàng Việt Tiến", true, date, "123456789", "BG", true);
+//		UserDAO.getInstance().insert(user);
+		new Login();
 	}
 
 }
