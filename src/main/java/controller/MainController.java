@@ -21,9 +21,20 @@ public class MainController implements Action{
 			view.exitProgram();
 		}else if(command.equals("Logout")) {
 			view.logOut();
+		}else if(command.equals("AddProductToTable")) {
+			view.addProductToTable();
+		}else if(command.equals("ModifyProductInTable")) {
+			view.modifyProductInTable();
+		}else if(command.equals("DeleteProductInTable")) {
+			view.deleteProductInTable();
+		}else if(command.equals("CalculatePrice")) {
+			view.calculatePrice();
 		}else if(command.equals("AddUser")) {
 			view.addUser();
+		}else if(command.equals("Pay")) {
+			view.pay();
 		}
+		
 	}
 
 	@Override

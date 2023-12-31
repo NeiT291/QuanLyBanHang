@@ -6,9 +6,17 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import model.Bill;
+import model.BillDetail;
+import model.Product;
 import model.User;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.JScrollPane;
@@ -20,6 +28,8 @@ import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 import controller.MainController;
+import dao.ProductDAO;
+
 import java.awt.Color;
 
 public class Main extends JFrame {
@@ -27,7 +37,15 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private User user;
-	
+	private JTextField TF_Search;
+	private JTable tableProduct;
+	private DefaultTableModel model;
+	private int numberProduct = 0;
+	private JTextField TF_TotalPrice;
+	private JTextField TF_GuestCash;
+	private JTextField TF_Sale;
+	private JTextField TF_Change;
+	private JRadioButton RBTN_PrintBill;
 	
 	public Main(User user) {
 		this.user = user;
@@ -52,7 +70,7 @@ public class Main extends JFrame {
 		
 		JPanel JP_Info = new JPanel();
 		JP_Info.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		JP_Info.setBounds(40, 55, 1168, 75);
+		JP_Info.setBounds(40, 55, 1198, 75);
 		
 		
 		JLabel LB_Info_Role = new JLabel();
@@ -83,7 +101,7 @@ public class Main extends JFrame {
 		contentPane.add(JP_Info);
 		
 		JPanel JP_Search = new JPanel();
-		JP_Search.setBounds(40, 145, 1168, 75);
+		JP_Search.setBounds(40, 145, 1198, 75);
 		
 		JP_Search.setLayout(null);
 		
@@ -92,44 +110,36 @@ public class Main extends JFrame {
 		JL_SearchTitle.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 18));
 		JP_Search.add(JL_SearchTitle);
 		
-		JTextField TF_Search = new JTextField();
+		TF_Search = new JTextField();
 		TF_Search.setFont(new Font("Roboto Mono", Font.PLAIN, 18));
-		TF_Search.setBounds(0, 39, 1087, 36);
+		TF_Search.setBounds(0, 39, 1060, 36);
 		JP_Search.add(TF_Search);
 		TF_Search.setColumns(10);
 		
-		JButton BTN_Search = new JButton("O");
-		BTN_Search.setBounds(1097, 36, 70, 39);
+		JButton BTN_Search = new JButton();
+		BTN_Search.setFont(new Font("Arial", Font.PLAIN, 14));
+		BTN_Search.setText("Tìm kiếm");
+		BTN_Search.setBounds(1070, 35, 128, 39);
 		JP_Search.add(BTN_Search);
 		contentPane.add(JP_Search);
 		
 		JScrollPane SP_Order = new JScrollPane();
-		SP_Order.setBounds(40, 230, 1168, 434);
+		SP_Order.setBounds(40, 230, 1060, 434);
 		
-		
-		
-		JTable tableProduct = new JTable();
+		tableProduct = new JTable();
 		tableProduct.setFocusable(false);
-		tableProduct.setFont(new Font("Roboto Mono Light", Font.PLAIN, 14));
-		tableProduct.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"STT", "M\u00E3 s\u1EA3n ph\u1EA9m", "S\u1EA3n ph\u1EA9m", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng", "Th\u00E0nh ti\u1EC1n"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, Integer.class, Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		tableProduct.setFont(new Font("Arial", Font.PLAIN, 15));
+		tableProduct.setRowHeight(20);
+		
+		model = new DefaultTableModel();
+		model.addColumn("STT");
+		model.addColumn("Mã sản phẩm");
+		model.addColumn("Sản phẩm");
+		model.addColumn("Đơn giá");
+		model.addColumn("Số lượng");
+		model.addColumn("Thành tiền");
+		tableProduct.setModel(model);
 		SP_Order.setViewportView(tableProduct);
-
 		contentPane.add(SP_Order);
 		
 		JPanel JP_Pay = new JPanel();
@@ -137,7 +147,7 @@ public class Main extends JFrame {
 		JP_Pay.setBounds(40, 674, 1467, 125);
 		JP_Pay.setLayout(null);
 		
-		JTextField TF_Sale = new JTextField();
+		TF_Sale = new JTextField();
 		TF_Sale.setHorizontalAlignment(SwingConstants.RIGHT);
 		TF_Sale.setFont(new Font("Arial", Font.PLAIN, 18));
 		TF_Sale.setText("0");
@@ -145,7 +155,7 @@ public class Main extends JFrame {
 		TF_Sale.setBounds(480, 75, 200, 40);
 		JP_Pay.add(TF_Sale);
 		
-		JTextField TF_TotalPrice = new JTextField();
+		TF_TotalPrice = new JTextField();
 		TF_TotalPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 		TF_TotalPrice.setBackground(Color.WHITE);
 		TF_TotalPrice.setEditable(false);
@@ -155,7 +165,7 @@ public class Main extends JFrame {
 		TF_TotalPrice.setBounds(249, 75, 200, 40);
 		JP_Pay.add(TF_TotalPrice);
 		
-		JTextField TF_GuestCash = new JTextField();
+		TF_GuestCash = new JTextField();
 		TF_GuestCash.setHorizontalAlignment(SwingConstants.RIGHT);
 		TF_GuestCash.setFont(new Font("Arial", Font.PLAIN, 18));
 		TF_GuestCash.setText("0");
@@ -163,7 +173,7 @@ public class Main extends JFrame {
 		TF_GuestCash.setBounds(10, 75, 200, 40);
 		JP_Pay.add(TF_GuestCash);
 		
-		JTextField TF_Change = new JTextField();
+		TF_Change = new JTextField();
 		TF_Change.setHorizontalAlignment(SwingConstants.RIGHT);
 		TF_Change.setBackground(Color.WHITE);
 		TF_Change.setEditable(false);
@@ -201,14 +211,24 @@ public class Main extends JFrame {
 		JButton BTN_Pay = new JButton("Thanh toán");
 		BTN_Pay.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_Pay.setBounds(1218, 75, 239, 40);
+		BTN_Pay.setActionCommand("Pay");
+		BTN_Pay.addActionListener(action);
 		JP_Pay.add(BTN_Pay);
 		
-		JRadioButton RBTN_PrintBill = new JRadioButton("In hóa đơn");
+		RBTN_PrintBill = new JRadioButton("In hóa đơn");
 		RBTN_PrintBill.setSelected(true);
 		RBTN_PrintBill.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 16));
-		RBTN_PrintBill.setBounds(1039, 82, 121, 37);
+		RBTN_PrintBill.setBounds(1084, 85, 128, 37);
 		JP_Pay.add(RBTN_PrintBill);
 		contentPane.add(JP_Pay);
+		
+		JButton BTN_CalculatePrice = new JButton();
+		BTN_CalculatePrice.setBounds(914, 75, 119, 40);
+		JP_Pay.add(BTN_CalculatePrice);
+		BTN_CalculatePrice.setText("Tính tiền");
+		BTN_CalculatePrice.setFont(new Font("Arial", Font.PLAIN, 14));
+		BTN_CalculatePrice.setActionCommand("CalculatePrice");
+		BTN_CalculatePrice.addActionListener(action);
 		
 		JPanel JP_Func = new JPanel();
 		JP_Func.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -237,13 +257,64 @@ public class Main extends JFrame {
 		BTN_AddUser.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_AddUser.setFocusable(false);
 		BTN_AddUser.setActionCommand("AddUser");
-		BTN_AddUser.setBounds(10, 479, 239, 55);
+		BTN_AddUser.setBounds(10, 160, 239, 55);
 		BTN_AddUser.addActionListener(action);
 		JP_Func.add(BTN_AddUser);
 		
 		contentPane.add(JP_Func);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		setUndecorated(true);
+		
+		JButton BTN_AddUser_1 = new JButton("Nhập hàng");
+		BTN_AddUser_1.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_AddUser_1.setFocusable(false);
+		BTN_AddUser_1.setActionCommand("AddUser");
+		BTN_AddUser_1.setBounds(10, 479, 239, 55);
+		JP_Func.add(BTN_AddUser_1);
+		
+		JButton BTN_AddUser_2 = new JButton("Hàng tồn kho");
+		BTN_AddUser_2.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_AddUser_2.setFocusable(false);
+		BTN_AddUser_2.setActionCommand("AddUser");
+		BTN_AddUser_2.setBounds(10, 90, 239, 55);
+		JP_Func.add(BTN_AddUser_2);
+		
+		JButton BTN_AddUser_3 = new JButton("Thêm nhân viên");
+		BTN_AddUser_3.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_AddUser_3.setFocusable(false);
+		BTN_AddUser_3.setActionCommand("AddUser");
+		BTN_AddUser_3.setBounds(10, 225, 239, 55);
+		JP_Func.add(BTN_AddUser_3);
+		
+		JPanel JP_TableFunc = new JPanel();
+		JP_TableFunc.setBounds(1110, 230, 128, 434);
+		contentPane.add(JP_TableFunc);
+		JP_TableFunc.setLayout(null);
+		
+		JButton BTN_DeleteProduct = new JButton();
+		BTN_DeleteProduct.setBounds(0, 81, 128, 30);
+		BTN_DeleteProduct.setText("Xóa");
+		BTN_DeleteProduct.setFont(new Font("Arial", Font.PLAIN, 14));
+		BTN_DeleteProduct.setActionCommand("DeleteProductInTable");
+		BTN_DeleteProduct.addActionListener(action);
+		JP_TableFunc.add(BTN_DeleteProduct);
+		
+		JButton BTN_ModifyProduct = new JButton();
+		BTN_ModifyProduct.setBounds(0, 41, 128, 30);
+		BTN_ModifyProduct.setText("Sửa");
+		BTN_ModifyProduct.setFont(new Font("Arial", Font.PLAIN, 14));
+		BTN_ModifyProduct.setActionCommand("ModifyProductInTable");
+		BTN_ModifyProduct.addActionListener(action);
+		JP_TableFunc.add(BTN_ModifyProduct);
+		
+		JButton BTN_AddProduct = new JButton();
+		BTN_AddProduct.setBounds(0, 0, 128, 30);
+		BTN_AddProduct.setText("Thêm");
+		BTN_AddProduct.setFont(new Font("Arial", Font.PLAIN, 14));
+		BTN_AddProduct.setActionCommand("AddProductToTable");
+		BTN_AddProduct.addActionListener(action);
+		JP_TableFunc.add(BTN_AddProduct);
+		
+//		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -251,7 +322,10 @@ public class Main extends JFrame {
 		this.user = user;
 	}
 	public void exitProgram() {
-		System.exit(0);
+		int check = JOptionPane.showConfirmDialog(null, "Thoát chương trình", "Thông báo", JOptionPane.YES_NO_OPTION);
+		if(check == 0) {
+			System.exit(0);			
+		}
 	}
 	public void logOut() {
 		this.user = null;
@@ -261,5 +335,115 @@ public class Main extends JFrame {
 	public void addUser() {
 		new AddUser();
 	}
-	
+	public void addProductToTable() {
+		String IDProduct = TF_Search.getText();
+		Product product = ProductDAO.getInstance().selectById(new Product(IDProduct));
+
+		if(product.getIDProduct() == null) {
+			JOptionPane.showMessageDialog(null, "Không có sản phẩm này");
+			return;
+		}
+		
+		int productCount = Integer.valueOf(JOptionPane.showInputDialog(null, "Số lượng sản phẩm", "Thông báo", JOptionPane.QUESTION_MESSAGE, null, null, "1").toString());
+		
+		for(int i = 0; i < tableProduct.getRowCount(); i++) {
+			if(tableProduct.getValueAt(i, 1).toString().equals(product.getIDProduct())) {
+				int newProductCount = Integer.valueOf(tableProduct.getValueAt(i, 4).toString()) + productCount;
+				tableProduct.setValueAt(newProductCount, i, 4);
+				tableProduct.setValueAt(product.getPrice() * newProductCount, i, 5);
+				calculatePrice();
+				return;
+			}
+		}
+		numberProduct++;
+		model.addRow(new Object[] {numberProduct, product.getIDProduct(), product.getNameProduct(), product.getPrice(), productCount, product.getPrice() * productCount});
+		calculatePrice();
+	}
+	public void modifyProductInTable() {
+		int selectedRow = tableProduct.getSelectedRow();
+		
+		if(selectedRow == -1) {
+			return;
+		}
+		int productCount = Integer.valueOf(JOptionPane.showInputDialog(null, "Số lượng sản phẩm", "Thông báo", JOptionPane.QUESTION_MESSAGE, null, null, "1").toString());
+		tableProduct.setValueAt(productCount, tableProduct.getSelectedRow(), 4);
+		
+		String IDProduct = tableProduct.getValueAt(selectedRow, 1).toString();
+		Product product = ProductDAO.getInstance().selectById(new Product(IDProduct));
+		tableProduct.setValueAt(product.getPrice() * productCount, tableProduct.getSelectedRow(), 5);
+		calculatePrice();
+	}
+	public void deleteProductInTable() {
+		int selectedRow = tableProduct.getSelectedRow();
+		
+		if(selectedRow == -1) {
+			return;
+		}
+		model.removeRow(selectedRow);
+		calculatePrice();
+	}
+	public void calculatePrice() {
+		int totalPrice = 0;
+		for(int i = 0; i < tableProduct.getRowCount(); i++) {
+			totalPrice += Integer.valueOf(tableProduct.getValueAt(i, 5).toString());
+		}
+		
+		int guestCash = Integer.valueOf(TF_GuestCash.getText());
+		int sale = Integer.valueOf(TF_Sale.getText());
+		int change = guestCash - (totalPrice - sale);
+		TF_TotalPrice.setText(String.valueOf(totalPrice));
+		TF_Change.setText(String.valueOf(change));
+	}
+	public void pay() {
+		try {
+			calculatePrice();
+			if(Integer.valueOf(TF_Change.getText()) < 0) {
+				JOptionPane.showMessageDialog(null, "Khách đưa thiếu tiền", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			
+			Bill bill = new Bill();
+			
+			LocalDateTime myDateObj = LocalDateTime.now();
+		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		    String formattedDate = myDateObj.format(myFormatObj);
+		    
+			bill.setIDBill(formattedDate);
+			bill.setIDUser(user.getId());
+			bill.setDiscount(Integer.valueOf(TF_Sale.getText()));
+			bill.setTotalPrice(Integer.valueOf(TF_TotalPrice.getText()));
+			
+			ArrayList<BillDetail> listProduct = new ArrayList<BillDetail>();
+			for(int i = 0; i < tableProduct.getRowCount(); i++) {
+				BillDetail billDetail = new BillDetail();
+				billDetail.setIDBill(bill.getIDBill());
+				billDetail.setIDProduct(tableProduct.getValueAt(i, 1).toString());
+				billDetail.setQuantity(Integer.valueOf(tableProduct.getValueAt(i, 4).toString()));
+				listProduct.add(billDetail);
+			}
+			bill.setListProduct(listProduct);
+//			BillDAO.getInstance().insert(bill);
+			printBill(bill);
+			JOptionPane.showMessageDialog(null, "Thanh toán thành công", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
+			
+			resetTable();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Lỗi");
+		}
+		
+	}
+	public void printBill(Bill bill) {
+		if(RBTN_PrintBill.isSelected()) {
+			new PrintBill();			
+		}
+	}
+	public void resetTable() {
+		for(int i = tableProduct.getRowCount() - 1; i >= 0; i--) {
+			model.removeRow(i);
+		}
+		TF_GuestCash.setText("0");
+		TF_Sale.setText("0");
+		calculatePrice();
+	}
 }

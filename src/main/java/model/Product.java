@@ -9,6 +9,9 @@ public class Product {
 	public Product() {
 		
 	}
+	public Product(String IDProduct) {
+		this.IDProduct = IDProduct;
+	}
 	public Product(String iDProduct, String nameProduct, int quantity, int price) {
 		this.IDProduct = iDProduct;
 		this.nameProduct = nameProduct;
