@@ -16,6 +16,9 @@ public class User {
 	public User() {
 		
 	}
+	public User(String id) {
+		this.id = id;
+	}
 
 	public User(String id, String username, String password, String fullName, boolean sex, Date birthDay, String phone, String address, boolean isAdmin) {
 		this.id = id;

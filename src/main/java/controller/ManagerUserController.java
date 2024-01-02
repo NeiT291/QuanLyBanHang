@@ -5,12 +5,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 
-import view.Main;
+import view.ManagerUser;
 
-public class MainController implements Action{
-	private Main view;
+public class ManagerUserController implements Action{
 	
-	public MainController(Main view) {
+	private ManagerUser view;
+	public ManagerUserController(ManagerUser view) {
 		this.view = view;
 	}
 	@Override
@@ -18,27 +18,18 @@ public class MainController implements Action{
 		String command = e.getActionCommand();
 		System.out.println(command);
 		if(command.equals("Exit")) {
-			view.exitProgram();
-		}else if(command.equals("Logout")) {
-			view.logOut();
-		}else if(command.equals("AddProductToTable")) {
-			view.addProductToTable();
-		}else if(command.equals("ModifyProductInTable")) {
-			view.modifyProductInTable();
-		}else if(command.equals("DeleteProductInTable")) {
-			view.deleteProductInTable();
-		}else if(command.equals("CalculatePrice")) {
-			view.calculatePrice();
-		}else if(command.equals("ManagerUser")) {
-			view.managerUser();
-		}else if(command.equals("ManagerProduct")) {
-			view.managerProduct();
-		}else if(command.equals("Pay")) {
-			view.pay();
-		}else if(command.equals("TransferBank")) {
-			view.transferBank();
+			view.exitFunc();
+		}else if(command.equals("AddUser")) {
+			view.addUser();
+		}else if(command.equals("DeleteUser")) {
+			view.deleteUser();
+		}else if(command.equals("Reload")) {
+			view.reload();
+		}else if(command.equals("ModifyUser")) {
+			view.modifyUser();
+		}else if(command.equals("Search")) {
+			view.searchUser();
 		}
-		
 	}
 
 	@Override

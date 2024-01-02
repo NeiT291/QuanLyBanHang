@@ -55,7 +55,7 @@ public class Main extends JFrame {
 	public void Init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Quản lý bán hàng");
-//		setResizable(false);
+		setResizable(false);
 		setSize(1920,1080);
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");			
@@ -204,10 +204,12 @@ public class Main extends JFrame {
 		LB_Change.setBounds(704, 39, 172, 26);
 		JP_Pay.add(LB_Change);
 		
-		JButton BTN_Transfer = new JButton("Chuyển khoản");
-		BTN_Transfer.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_Transfer.setBounds(1218, 20, 239, 40);
-		JP_Pay.add(BTN_Transfer);
+		JButton BTN_TransferBank = new JButton("Chuyển khoản");
+		BTN_TransferBank.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_TransferBank.setBounds(1218, 20, 239, 40);
+		BTN_TransferBank.setActionCommand("TransferBank");
+		BTN_TransferBank.addActionListener(action);
+		JP_Pay.add(BTN_TransferBank);
 		
 		JButton BTN_Pay = new JButton("Thanh toán");
 		BTN_Pay.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
@@ -254,36 +256,30 @@ public class Main extends JFrame {
 		
 		JP_Func.add(BTN_Exit);
 		
-		JButton BTN_AddUser = new JButton("Thêm nhân viên");
-		BTN_AddUser.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_AddUser.setFocusable(false);
-		BTN_AddUser.setActionCommand("AddUser");
-		BTN_AddUser.setBounds(10, 160, 239, 55);
-		BTN_AddUser.addActionListener(action);
-		JP_Func.add(BTN_AddUser);
-		
 		contentPane.add(JP_Func);
 		
-		JButton BTN_AddUser_1 = new JButton("Nhập hàng");
-		BTN_AddUser_1.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_AddUser_1.setFocusable(false);
-		BTN_AddUser_1.setActionCommand("AddUser");
-		BTN_AddUser_1.setBounds(10, 479, 239, 55);
-		JP_Func.add(BTN_AddUser_1);
+		JButton BTN_ImportProduct = new JButton("Nhập hàng");
+		BTN_ImportProduct.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_ImportProduct.setFocusable(false);
+		BTN_ImportProduct.setActionCommand("ImportProduct");
+		BTN_ImportProduct.setBounds(10, 479, 239, 55);
+		JP_Func.add(BTN_ImportProduct);
 		
-		JButton BTN_AddUser_2 = new JButton("Hàng tồn kho");
-		BTN_AddUser_2.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_AddUser_2.setFocusable(false);
-		BTN_AddUser_2.setActionCommand("AddUser");
-		BTN_AddUser_2.setBounds(10, 90, 239, 55);
-		JP_Func.add(BTN_AddUser_2);
+		JButton BTN_ManagerUser = new JButton("Quản lý nhân viên");
+		BTN_ManagerUser.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_ManagerUser.setFocusable(false);
+		BTN_ManagerUser.setActionCommand("ManagerUser");
+		BTN_ManagerUser.setBounds(10, 90, 239, 55);
+		BTN_ManagerUser.addActionListener(action);
+		JP_Func.add(BTN_ManagerUser);
 		
-		JButton BTN_AddUser_3 = new JButton("Thêm nhân viên");
-		BTN_AddUser_3.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_AddUser_3.setFocusable(false);
-		BTN_AddUser_3.setActionCommand("AddUser");
-		BTN_AddUser_3.setBounds(10, 225, 239, 55);
-		JP_Func.add(BTN_AddUser_3);
+		JButton BTN_ManagerProduct = new JButton("Quản lý kho hàng");
+		BTN_ManagerProduct.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_ManagerProduct.setFocusable(false);
+		BTN_ManagerProduct.setBounds(10, 414, 239, 55);
+		BTN_ManagerProduct.setActionCommand("ManagerProduct");
+		BTN_ManagerProduct.addActionListener(action);
+		JP_Func.add(BTN_ManagerProduct);
 		
 		JPanel JP_TableFunc = new JPanel();
 		JP_TableFunc.setBounds(1110, 230, 128, 434);
@@ -332,9 +328,6 @@ public class Main extends JFrame {
 		this.user = null;
 		new Login();
 		this.dispose();
-	}
-	public void addUser() {
-		new AddUser();
 	}
 	public void addProductToTable() {
 		String IDProduct = TF_Search.getText();
@@ -402,6 +395,10 @@ public class Main extends JFrame {
 				JOptionPane.showMessageDialog(null, "Khách đưa thiếu tiền", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
+			if(Integer.valueOf(TF_TotalPrice.getText()) == 0) {
+				JOptionPane.showMessageDialog(null, "Không có đơn hàng", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
 			
 			Bill bill = new Bill();
 			
@@ -419,11 +416,17 @@ public class Main extends JFrame {
 				BillDetail billDetail = new BillDetail();
 				billDetail.setIDBill(bill.getIDBill());
 				billDetail.setIDProduct(tableProduct.getValueAt(i, 1).toString());
+				billDetail.setNameProduct(tableProduct.getValueAt(i, 2).toString());
+				billDetail.setPrice(Integer.valueOf(tableProduct.getValueAt(i, 3).toString()));
 				billDetail.setQuantity(Integer.valueOf(tableProduct.getValueAt(i, 4).toString()));
 				listProduct.add(billDetail);
+				
+				updateQuantityProduct(i, tableProduct.getValueAt(i, 1).toString());
 			}
 			bill.setListProduct(listProduct);
+			
 			BillDAO.getInstance().insert(bill);
+			
 			printBill(bill);
 			JOptionPane.showMessageDialog(null, "Thanh toán thành công", "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
 			
@@ -434,17 +437,45 @@ public class Main extends JFrame {
 		}
 		
 	}
+	public void transferBank() {
+		new TransferBank(this);
+	}
+	public void updateQuantityProduct(int row, String IDProduct) {
+		Product product = ProductDAO.getInstance().selectById(new Product(IDProduct));
+		int quantityProductInBill = Integer.valueOf(tableProduct.getValueAt(row, 4).toString());
+		int newQuantity = product.getQuantity() - quantityProductInBill;
+		if(newQuantity < 0) {
+			JOptionPane.showMessageDialog(null, "Số lượng " + product.getNameProduct() + " còn: " + product.getQuantity(), "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		product.setQuantity(newQuantity);
+		ProductDAO.getInstance().update(product);
+	}
 	public void printBill(Bill bill) {
 		if(RBTN_PrintBill.isSelected()) {
-			new PrintBill();			
+			new PrintBill(user, bill);	
 		}
 	}
 	public void resetTable() {
+		numberProduct = 0;
 		for(int i = tableProduct.getRowCount() - 1; i >= 0; i--) {
 			model.removeRow(i);
 		}
 		TF_GuestCash.setText("0");
 		TF_Sale.setText("0");
 		calculatePrice();
+	}
+	
+	public void managerUser() {
+		new ManagerUser();
+	}
+	public void managerProduct() {
+		new ManagerProduct();
+	}
+	public int getTotalPrice() {
+		return Integer.valueOf(TF_TotalPrice.getText());
+	}
+	public void setGuestCash(int number) {
+		TF_GuestCash.setText(String.valueOf(number));
 	}
 }

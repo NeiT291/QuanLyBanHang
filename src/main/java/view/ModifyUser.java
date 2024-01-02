@@ -18,8 +18,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -30,7 +28,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 
-public class AddUser extends JFrame {
+public class ModifyUser extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -44,8 +42,11 @@ public class AddUser extends JFrame {
 	private JTextField TF_Andress;
 	private JRadioButton RBTN_IsAdmin;
 	private ManagerUser managerUser;
-	public AddUser(ManagerUser managerUser) {
+	private User user;
+	
+	public ModifyUser(ManagerUser managerUser,User user) {
 		this.managerUser = managerUser;
+		this.user = user;
 		this.Init();
 	}
 	public void Init() {
@@ -113,7 +114,6 @@ public class AddUser extends JFrame {
 		JP_Info.add(LB_ID_3_4);
 		
 		TF_ID = new JTextField();
-		TF_ID.setText("0" + randomID());
 		TF_ID.setBackground(Color.WHITE);
 		TF_ID.setFont(new Font("Arial", Font.PLAIN, 16));
 		TF_ID.setEditable(false);
@@ -174,40 +174,41 @@ public class AddUser extends JFrame {
 		JP_Info.add(datePicker);
 		
 		RBTN_IsAdmin = new JRadioButton("Quản lý");
-		RBTN_IsAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(RBTN_IsAdmin.isSelected()) {
-					TF_ID.setText("1" + randomID());
-				}else {
-					TF_ID.setText("0" + randomID());
-				}
-			}
-		});
 		RBTN_IsAdmin.setHorizontalAlignment(SwingConstants.CENTER);
 		RBTN_IsAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
 		RBTN_IsAdmin.setBounds(167, 445, 95, 21);
 		RBTN_IsAdmin.setFocusable(false);
 		JP_Info.add(RBTN_IsAdmin);
 		
-		
-		
-		JButton BTN_AddUser = new JButton("Thêm");
-		BTN_AddUser.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_AddUser.setBounds(230, 504, 101, 41);
-		BTN_AddUser.setFocusable(false);
-		contentPane.add(BTN_AddUser);
-		BTN_AddUser.addActionListener(new ActionListener() {
+		JButton BTN_Save = new JButton("Lưu");
+		BTN_Save.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
+		BTN_Save.setBounds(230, 504, 101, 41);
+		BTN_Save.setFocusable(false);
+		BTN_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addUser();
+				modifyUser();
 				
 			}
 		});
+		contentPane.add(BTN_Save);
+		loadUser();
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	public void addUser() {
+	public void loadUser() {
+		TF_ID.setText(user.getId());
+		TF_FullName.setText(user.getFullName());
+		TF_Password.setText(user.getPassword());
+		TF_Username.setText(user.getUsername());
+		TF_Phone.setText(user.getPhone());
+		TF_Andress.setText(user.getAddress());
+		RBTN_IsAdmin.setSelected(user.isAdmin());
+		datePicker.setDate(user.getBirthDay().toLocalDate());
+	}
+	
+	public void modifyUser() {
 		if(!vaildate()) {
-			JOptionPane.showMessageDialog(null, "Hãy nhập đủ thông tin !!!","Lỗi", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Hãy nhập lại thông tin !!!","Lỗi", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		boolean sex = false;
@@ -216,13 +217,13 @@ public class AddUser extends JFrame {
 		}
 		Date birthDay = Date.valueOf(datePicker.getDate());
 		User user = new User(TF_ID.getText(), TF_Username.getText(), TF_Password.getText(), TF_FullName.getText(), sex, birthDay, TF_Phone.getText(), TF_Andress.getText(), RBTN_IsAdmin.isSelected());
-		int result = UserDAO.getInstance().insert(user);
+		int result = UserDAO.getInstance().update(user);
 		if(result > 0) {
-			JOptionPane.showMessageDialog(null, "Thêm thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Lưu thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
 			managerUser.reload();
 			this.dispose();
 		}else {
-			JOptionPane.showMessageDialog(null, "Thêm thất bại","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Lưu thất bại","Thông báo", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	public boolean vaildate() {
@@ -238,14 +239,16 @@ public class AddUser extends JFrame {
 		if(TF_Phone.getText().length() == 0) {
 			return false;
 		}
+		String phone = TF_Phone.getText();
+		for(int i = 0; i < phone.length(); i++) {
+			if(!Character.isDigit(phone.charAt(i)) ) {
+				return false;
+			}
+		}
 		if(TF_Andress.getText().length() == 0) {
 			return false;
 		}
 		return true;
 	}
-	public String randomID() {
-		LocalDateTime myDateObj = LocalDateTime.now();
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	    return myDateObj.format(myFormatObj);
-	}
+	
 }

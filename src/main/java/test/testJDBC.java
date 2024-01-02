@@ -21,6 +21,7 @@ import model.Product;
 import model.User;
 import view.Login;
 import view.Main;
+import view.PrintBill;
 
 public class testJDBC {
 

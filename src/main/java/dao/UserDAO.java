@@ -165,6 +165,41 @@ public class UserDAO implements DAOInterface<User> {
 	
 		return result;
 	}
+	public User selectByUsername(User t) {
+		User result = new User();
+		try {
+			Connection c = JDBCUtil.getConnection();
+			String sql = "SELECT taikhoan.IDNhanVien, taikhoan.Username, taikhoan.Password, taikhoan.isAdmin, thongtinnhanvien.HoVaTen, thongtinnhanvien.GioiTinh, thongtinnhanvien.NgayThangNamSinh, thongtinnhanvien.SDT, thongtinnhanvien.QueQuan"
+					+ " FROM taikhoan"
+					+ " JOIN thongtinnhanvien ON taikhoan.IDNhanVien = thongtinnhanvien.IDNhanVien"
+					+ " WHERE Username = ?";
+			
+			PreparedStatement preStatement = c.prepareStatement(sql);
+			
+			preStatement.setString(1, t.getUsername());
+			
+			ResultSet rs = preStatement.executeQuery();
+			
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("IDNhanVien"));
+				user.setUsername(rs.getString("Username"));
+				user.setPassword(rs.getString("Password"));
+				user.setFullName(rs.getString("HoVaTen"));
+				user.setSex(rs.getBoolean("GioiTinh"));
+				user.setBirthDay(rs.getDate("NgayThangNamSinh"));
+				user.setPhone(rs.getString("SDT"));
+				user.setAddress(rs.getString("QueQuan"));
+				user.setAdmin(rs.getBoolean("isAdmin"));
+				result = user;
+			}
+			JDBCUtil.closeConnection(c);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
 	public User selectByUsernameAndPassword(User t) {
 		User result = null;
 		try {
