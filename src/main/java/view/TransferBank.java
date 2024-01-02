@@ -6,12 +6,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+
+import dao.JDBCUtil;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 
 public class TransferBank extends JFrame {
@@ -19,7 +27,10 @@ public class TransferBank extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Main main;
+	private String stk;
+	private String qrLocation;
 	public TransferBank(Main main) {
+		loadShopInfo();
 		this.main = main;
 		this.Init();
 	}
@@ -39,13 +50,17 @@ public class TransferBank extends JFrame {
 		LB_Title.setBounds(10, 10, 280, 27);
 		contentPane.add(LB_Title);
 		
-		JLabel LB_QR = new JLabel("New label");
-		LB_QR.setIcon(new ImageIcon(TransferBank.class.getResource("/images/QR.jpg")));
+		ImageIcon imageIcon = new ImageIcon(TransferBank.class.getResource(qrLocation));
+		Image image = imageIcon.getImage();
 		
-		LB_QR.setBounds(10, 71, 280, 258);
+		JLabel LB_QR = new JLabel();
+		LB_QR.setBounds(10, 71, 280, 280);
+		image = image.getScaledInstance(LB_QR.getWidth(), LB_QR.getHeight(), java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		LB_QR.setIcon(imageIcon);
 		contentPane.add(LB_QR);
 		
-		JLabel LB_Info = new JLabel("STK: 123456789123");
+		JLabel LB_Info = new JLabel("STK: " + stk);
 		LB_Info.setHorizontalAlignment(SwingConstants.CENTER);
 		LB_Info.setFont(new Font("Arial", Font.PLAIN, 15));
 		LB_Info.setBounds(10, 34, 280, 27);
@@ -83,5 +98,31 @@ public class TransferBank extends JFrame {
 		setLocationRelativeTo(null);
 		setUndecorated(true);
 		setVisible(true);
+	}
+	public void loadShopInfo() {
+		final String SHOP_CONFIG = "\\shop.properties";
+		Properties properties = new Properties();
+        InputStream inputStream = null;
+        
+        try {
+            inputStream = JDBCUtil.class.getClassLoader().getResourceAsStream(SHOP_CONFIG);
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        stk = properties.getProperty("stk");
+        qrLocation = properties.getProperty("qrlocation");
+        
+        System.out.println(stk + " " + qrLocation);
+        
 	}
 }

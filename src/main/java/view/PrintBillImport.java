@@ -12,8 +12,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.JDBCUtil;
-import model.Bill;
-import model.BillDetail;
 import model.ImportDetail;
 import model.ImportProduct;
 import model.User;
