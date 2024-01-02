@@ -102,7 +102,7 @@ public class Main extends JFrame {
 		contentPane.add(JP_Info);
 		
 		JPanel JP_Search = new JPanel();
-		JP_Search.setBounds(40, 145, 1198, 75);
+		JP_Search.setBounds(40, 145, 1060, 75);
 		
 		JP_Search.setLayout(null);
 		
@@ -116,12 +116,6 @@ public class Main extends JFrame {
 		TF_Search.setBounds(0, 39, 1060, 36);
 		JP_Search.add(TF_Search);
 		TF_Search.setColumns(10);
-		
-		JButton BTN_Search = new JButton();
-		BTN_Search.setFont(new Font("Arial", Font.PLAIN, 14));
-		BTN_Search.setText("Tìm kiếm");
-		BTN_Search.setBounds(1070, 35, 128, 39);
-		JP_Search.add(BTN_Search);
 		contentPane.add(JP_Search);
 		
 		JScrollPane SP_Order = new JScrollPane();
@@ -262,6 +256,7 @@ public class Main extends JFrame {
 		BTN_ImportProduct.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_ImportProduct.setFocusable(false);
 		BTN_ImportProduct.setActionCommand("ImportProduct");
+		BTN_ImportProduct.addActionListener(action);
 		BTN_ImportProduct.setBounds(10, 479, 239, 55);
 		JP_Func.add(BTN_ImportProduct);
 		
@@ -282,12 +277,12 @@ public class Main extends JFrame {
 		JP_Func.add(BTN_ManagerProduct);
 		
 		JPanel JP_TableFunc = new JPanel();
-		JP_TableFunc.setBounds(1110, 230, 128, 434);
+		JP_TableFunc.setBounds(1110, 185, 128, 479);
 		contentPane.add(JP_TableFunc);
 		JP_TableFunc.setLayout(null);
 		
 		JButton BTN_DeleteProduct = new JButton();
-		BTN_DeleteProduct.setBounds(0, 81, 128, 30);
+		BTN_DeleteProduct.setBounds(0, 86, 128, 30);
 		BTN_DeleteProduct.setText("Xóa");
 		BTN_DeleteProduct.setFont(new Font("Arial", Font.PLAIN, 14));
 		BTN_DeleteProduct.setActionCommand("DeleteProductInTable");
@@ -295,7 +290,7 @@ public class Main extends JFrame {
 		JP_TableFunc.add(BTN_DeleteProduct);
 		
 		JButton BTN_ModifyProduct = new JButton();
-		BTN_ModifyProduct.setBounds(0, 41, 128, 30);
+		BTN_ModifyProduct.setBounds(0, 46, 128, 30);
 		BTN_ModifyProduct.setText("Sửa");
 		BTN_ModifyProduct.setFont(new Font("Arial", Font.PLAIN, 14));
 		BTN_ModifyProduct.setActionCommand("ModifyProductInTable");
@@ -303,7 +298,7 @@ public class Main extends JFrame {
 		JP_TableFunc.add(BTN_ModifyProduct);
 		
 		JButton BTN_AddProduct = new JButton();
-		BTN_AddProduct.setBounds(0, 0, 128, 30);
+		BTN_AddProduct.setBounds(0, 0, 128, 36);
 		BTN_AddProduct.setText("Thêm");
 		BTN_AddProduct.setFont(new Font("Arial", Font.PLAIN, 14));
 		BTN_AddProduct.setActionCommand("AddProductToTable");
@@ -421,7 +416,10 @@ public class Main extends JFrame {
 				billDetail.setQuantity(Integer.valueOf(tableProduct.getValueAt(i, 4).toString()));
 				listProduct.add(billDetail);
 				
-				updateQuantityProduct(i, tableProduct.getValueAt(i, 1).toString());
+				if(!updateQuantityProduct(i, tableProduct.getValueAt(i, 1).toString())) {
+					TF_GuestCash.setText("0");
+					return;
+				};
 			}
 			bill.setListProduct(listProduct);
 			
@@ -440,16 +438,17 @@ public class Main extends JFrame {
 	public void transferBank() {
 		new TransferBank(this);
 	}
-	public void updateQuantityProduct(int row, String IDProduct) {
+	public boolean updateQuantityProduct(int row, String IDProduct) {
 		Product product = ProductDAO.getInstance().selectById(new Product(IDProduct));
 		int quantityProductInBill = Integer.valueOf(tableProduct.getValueAt(row, 4).toString());
 		int newQuantity = product.getQuantity() - quantityProductInBill;
 		if(newQuantity < 0) {
 			JOptionPane.showMessageDialog(null, "Số lượng " + product.getNameProduct() + " còn: " + product.getQuantity(), "Thanh toán", JOptionPane.INFORMATION_MESSAGE);
-			return;
+			return false;
 		}
 		product.setQuantity(newQuantity);
 		ProductDAO.getInstance().update(product);
+		return true;
 	}
 	public void printBill(Bill bill) {
 		if(RBTN_PrintBill.isSelected()) {
@@ -471,6 +470,9 @@ public class Main extends JFrame {
 	}
 	public void managerProduct() {
 		new ManagerProduct();
+	}
+	public void importProduct() {
+		new ImportProductView(user);
 	}
 	public int getTotalPrice() {
 		return Integer.valueOf(TF_TotalPrice.getText());

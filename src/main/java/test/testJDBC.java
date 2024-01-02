@@ -19,6 +19,7 @@ import model.Bill;
 import model.BillDetail;
 import model.Product;
 import model.User;
+import view.ImportProductView;
 import view.Login;
 import view.Main;
 import view.PrintBill;

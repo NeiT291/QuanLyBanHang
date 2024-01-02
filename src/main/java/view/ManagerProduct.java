@@ -36,7 +36,7 @@ public class ManagerProduct extends JFrame {
 		
 		setType(Type.POPUP);
 		setResizable(false);
-		setTitle("Quản lý nhân viên");
+		setTitle("Quản lý hàng hóa");
 		setSize(1000, 600);
 		
 		Action action = new ManagerProductController(this);

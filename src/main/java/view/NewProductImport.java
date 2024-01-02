@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dao.ProductDAO;
 import model.Product;
 
 import javax.swing.JLabel;
@@ -21,7 +20,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 
-public class ModifyProduct extends JFrame {
+public class NewProductImport extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -29,18 +28,16 @@ public class ModifyProduct extends JFrame {
 	private JTextField TF_NameProduct;
 	private JTextField TF_Quantity;
 	private JTextField TF_Price;
-	private ManagerProduct managerProduct;
-	private Product product;
+	private ImportProductView importProduct;
 	
-	public ModifyProduct(ManagerProduct managerProduct, Product product) {
-		this.managerProduct = managerProduct;
-		this.product = product;
+	public NewProductImport(ImportProductView importProduct) {
+		this.importProduct = importProduct;
 		this.Init();
 	}
 	public void Init() {
 		setType(Type.POPUP);
 		setResizable(false);
-		setTitle("Thêm Sản phẩm");
+		setTitle("Thêm sản phẩm");
 		setSize(600, 310);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,8 +75,6 @@ public class ModifyProduct extends JFrame {
 		JP_Info.add(LB_ID_3);
 		
 		TF_ID = new JTextField();
-		TF_ID.setEditable(false);
-		TF_ID.setText(product.getIDProduct());
 		TF_ID.setBackground(Color.WHITE);
 		TF_ID.setFont(new Font("Arial", Font.PLAIN, 16));
 		TF_ID.setBounds(178, 14, 390, 40);
@@ -87,34 +82,31 @@ public class ModifyProduct extends JFrame {
 		TF_ID.setColumns(10);
 		
 		TF_NameProduct = new JTextField();
-		TF_NameProduct.setText(product.getNameProduct());
 		TF_NameProduct.setFont(new Font("Arial", Font.PLAIN, 16));
 		TF_NameProduct.setColumns(10);
 		TF_NameProduct.setBounds(178, 64, 390, 40);
 		JP_Info.add(TF_NameProduct);
 		
 		TF_Quantity = new JTextField();
-		TF_Quantity.setText(String.valueOf(product.getQuantity()));
 		TF_Quantity.setFont(new Font("Arial", Font.PLAIN, 16));
 		TF_Quantity.setColumns(10);
 		TF_Quantity.setBounds(178, 118, 390, 40);
 		JP_Info.add(TF_Quantity);
 		
 		TF_Price = new JTextField();
-		TF_Price.setText(String.valueOf(product.getPrice()));
 		TF_Price.setFont(new Font("Arial", Font.PLAIN, 16));
 		TF_Price.setColumns(10);
 		TF_Price.setBounds(178, 172, 390, 40);
 		JP_Info.add(TF_Price);
 		
-		JButton BTN_Save = new JButton("Lưu");
+		JButton BTN_Save = new JButton("Thêm");
 		BTN_Save.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_Save.setBounds(235, 222, 101, 41);
 		BTN_Save.setFocusable(false);
 		BTN_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				modifyProduct();
-				
+				addProduct();
+				dispose();
 			}
 		});
 		contentPane.add(BTN_Save);
@@ -122,21 +114,14 @@ public class ModifyProduct extends JFrame {
 		setVisible(true);
 	}
 	
-	public void modifyProduct() {
+	public void addProduct() {
 		if(!vaildate()) {
 			JOptionPane.showMessageDialog(null, "Hãy nhập lại thông tin !!!","Lỗi", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
 		Product product = new Product(TF_ID.getText(), TF_NameProduct.getText(), Integer.valueOf(TF_Quantity.getText()), Integer.valueOf(TF_Price.getText()));
-		int result = ProductDAO.getInstance().update(product);
-		if(result > 0) {
-			JOptionPane.showMessageDialog(null, "Lưu thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
-			managerProduct.reload();
-			this.dispose();
-		}else {
-			JOptionPane.showMessageDialog(null, "Lưu thất bại","Thông báo", JOptionPane.INFORMATION_MESSAGE);
-		}
+		importProduct.addRowModelTable(product);
 	}
 	public boolean vaildate() {
 		if(TF_NameProduct.getText().length() == 0) {
@@ -149,6 +134,22 @@ public class ModifyProduct extends JFrame {
 			return false;
 		}
 		return true;
+	}
+	
+	public void setTF_ID(String ID) {
+		TF_ID.setText(ID);
+	}
+	
+	public void setTF_NameProduct(String nameProduct) {
+		TF_NameProduct.setText(nameProduct);
+	}
+	
+	public void setTF_Quantity(int quantity) {
+		TF_Quantity.setText(String.valueOf(quantity));
+	}
+	
+	public void setTF_Price(int price) {
+		TF_Price.setText(String.valueOf(price));
 	}
 	
 }

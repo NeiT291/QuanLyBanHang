@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ImportProduct {
 	private String IDImportProduct;
 	private String IDUser;
+	private String supplier;
 	private ArrayList<ImportDetail> listProduct;
 	private String dateTime;
 	private int totalPrice;
@@ -15,11 +16,10 @@ public class ImportProduct {
 		this.dateTime = this.autoGenDateTime();
 	}
 
-	public ImportProduct(String iDImportProduct, String iDUser, ArrayList<ImportDetail> listProduct, String dateTime,
-			int totalPrice) {
-		super();
-		IDImportProduct = iDImportProduct;
-		IDUser = iDUser;
+	public ImportProduct(String iDImportProduct, String iDUser, String supplier, ArrayList<ImportDetail> listProduct, String dateTime, int totalPrice) {
+		this.IDImportProduct = iDImportProduct;
+		this.IDUser = iDUser;
+		this.supplier = supplier;
 		this.listProduct = listProduct;
 		this.dateTime = dateTime;
 		this.totalPrice = totalPrice;
@@ -39,6 +39,14 @@ public class ImportProduct {
 
 	public void setIDUser(String iDUser) {
 		IDUser = iDUser;
+	}
+
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
 	}
 
 	public ArrayList<ImportDetail> getListProduct() {

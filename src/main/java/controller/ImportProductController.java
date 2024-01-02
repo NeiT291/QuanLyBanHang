@@ -5,12 +5,12 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 
-import view.Main;
+import view.ImportProductView;
 
-public class MainController implements Action{
-	private Main view;
+public class ImportProductController implements Action{
 	
-	public MainController(Main view) {
+	private ImportProductView view;
+	public ImportProductController(ImportProductView view) {
 		this.view = view;
 	}
 	@Override
@@ -18,29 +18,16 @@ public class MainController implements Action{
 		String command = e.getActionCommand();
 		System.out.println(command);
 		if(command.equals("Exit")) {
-			view.exitProgram();
-		}else if(command.equals("Logout")) {
-			view.logOut();
-		}else if(command.equals("AddProductToTable")) {
-			view.addProductToTable();
-		}else if(command.equals("ModifyProductInTable")) {
-			view.modifyProductInTable();
-		}else if(command.equals("DeleteProductInTable")) {
-			view.deleteProductInTable();
-		}else if(command.equals("CalculatePrice")) {
-			view.calculatePrice();
-		}else if(command.equals("ManagerUser")) {
-			view.managerUser();
-		}else if(command.equals("ManagerProduct")) {
-			view.managerProduct();
+			view.exitFunc();
+		}else if(command.equals("AddProduct")) {
+			view.addProduct();
+		}else if(command.equals("ModifyProduct")) {
+			view.modifyProduct();
+		}else if(command.equals("DeleteProduct")) {
+			view.deleteProduct();
 		}else if(command.equals("ImportProduct")) {
 			view.importProduct();
-		}else if(command.equals("Pay")) {
-			view.pay();
-		}else if(command.equals("TransferBank")) {
-			view.transferBank();
 		}
-		
 	}
 
 	@Override

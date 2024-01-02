@@ -23,8 +23,9 @@ public class ImportProductDAO implements DAOInterface<ImportProduct>{
 			PreparedStatement preSateInsertHD = c.prepareStatement(insertHoaDon);
 			preSateInsertHD.setString(1, t.getIDImportProduct());
 			preSateInsertHD.setString(2, t.getIDUser());
-			preSateInsertHD.setString(3, t.getDateTime());
-			preSateInsertHD.setInt(4, t.getTotalPrice());
+			preSateInsertHD.setString(3, t.getSupplier());
+			preSateInsertHD.setString(4, t.getDateTime());
+			preSateInsertHD.setInt(5, t.getTotalPrice());
 			
 			result = preSateInsertHD.executeUpdate();
 			
@@ -84,6 +85,7 @@ public class ImportProductDAO implements DAOInterface<ImportProduct>{
 				ImportProduct importProduct = new ImportProduct();
 				importProduct.setIDImportProduct(rs.getString("IDNhapHang"));
 				importProduct.setIDUser(rs.getString("IDNhanVien"));
+				importProduct.setSupplier(rs.getString("NhaCungCap"));
 				importProduct.setDateTime(rs.getString("ThoiGian"));
 				importProduct.setTotalPrice(rs.getInt("TongTien"));
 				
@@ -115,6 +117,7 @@ public class ImportProductDAO implements DAOInterface<ImportProduct>{
 				ImportProduct importProduct = new ImportProduct();
 				importProduct.setIDImportProduct(rs.getString("IDNhapHang"));
 				importProduct.setIDUser(rs.getString("IDNhanVien"));
+				importProduct.setSupplier(rs.getString("NhaCungCap"));
 				importProduct.setDateTime(rs.getString("ThoiGian"));
 				importProduct.setTotalPrice(rs.getInt("TongTien"));
 				
