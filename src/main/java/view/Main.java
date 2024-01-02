@@ -431,7 +431,7 @@ public class Main extends JFrame {
 			resetTable();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Lỗi");
+			JOptionPane.showMessageDialog(null, "Chương trình lỗi");
 		}
 		
 	}
