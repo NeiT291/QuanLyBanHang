@@ -16,7 +16,6 @@ public class ManagerUserController implements Action{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		System.out.println(command);
 		if(command.equals("Exit")) {
 			view.exitFunc();
 		}else if(command.equals("AddUser")) {

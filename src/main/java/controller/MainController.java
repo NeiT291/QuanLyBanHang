@@ -16,7 +16,6 @@ public class MainController implements Action{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		System.out.println(command);
 		if(command.equals("Exit")) {
 			view.exitProgram();
 		}else if(command.equals("Logout")) {

@@ -15,6 +15,8 @@ CREATE TABLE ThongTinNhanVien(
     QueQuan VARCHAR(255),
     FOREIGN KEY (IDNhanVien) REFERENCES TaiKhoan(IDNhanVien)
 );
+INSERT INTO taikhoan() VALUES(0, 'admin', 'admin', true)
+INSERT INTO thongtinnhanvien() VALUES(0, 'admin', 'true', '2024-1-1', '123', 'VN')
 CREATE TABLE HangHoa(
 	IDHangHoa VARCHAR(20) PRIMARY KEY NOT NULL,
     TenHangHoa VARCHAR(255),

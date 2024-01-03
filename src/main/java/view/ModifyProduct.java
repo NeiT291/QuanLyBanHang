@@ -114,7 +114,6 @@ public class ModifyProduct extends JFrame {
 		BTN_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modifyProduct();
-				
 			}
 		});
 		contentPane.add(BTN_Save);
