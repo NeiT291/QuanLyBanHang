@@ -267,6 +267,9 @@ public class Main extends JFrame {
 		BTN_ManagerUser.setBounds(10, 90, 239, 55);
 		BTN_ManagerUser.addActionListener(action);
 		JP_Func.add(BTN_ManagerUser);
+		if(!user.isAdmin()) {
+			BTN_ManagerUser.setVisible(false);;
+		}
 		
 		JButton BTN_ManagerProduct = new JButton("Quản lý kho hàng");
 		BTN_ManagerProduct.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
@@ -305,8 +308,8 @@ public class Main extends JFrame {
 		BTN_AddProduct.addActionListener(action);
 		JP_TableFunc.add(BTN_AddProduct);
 		
-//		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//		setUndecorated(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
