@@ -200,7 +200,7 @@ public class Main extends JFrame {
 		
 		JButton BTN_TransferBank = new JButton("Chuyển khoản");
 		BTN_TransferBank.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
-		BTN_TransferBank.setBounds(1218, 20, 239, 40);
+		BTN_TransferBank.setBounds(1218, 10, 239, 40);
 		BTN_TransferBank.setActionCommand("TransferBank");
 		BTN_TransferBank.addActionListener(action);
 		JP_Pay.add(BTN_TransferBank);
@@ -285,7 +285,7 @@ public class Main extends JFrame {
 		JP_TableFunc.setLayout(null);
 		
 		JButton BTN_DeleteProduct = new JButton();
-		BTN_DeleteProduct.setBounds(0, 86, 128, 30);
+		BTN_DeleteProduct.setBounds(0, 92, 128, 36);
 		BTN_DeleteProduct.setText("Xóa");
 		BTN_DeleteProduct.setFont(new Font("Arial", Font.PLAIN, 14));
 		BTN_DeleteProduct.setActionCommand("DeleteProductInTable");
@@ -293,7 +293,7 @@ public class Main extends JFrame {
 		JP_TableFunc.add(BTN_DeleteProduct);
 		
 		JButton BTN_ModifyProduct = new JButton();
-		BTN_ModifyProduct.setBounds(0, 46, 128, 30);
+		BTN_ModifyProduct.setBounds(0, 46, 128, 36);
 		BTN_ModifyProduct.setText("Sửa");
 		BTN_ModifyProduct.setFont(new Font("Arial", Font.PLAIN, 14));
 		BTN_ModifyProduct.setActionCommand("ModifyProductInTable");
