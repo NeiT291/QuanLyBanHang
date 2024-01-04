@@ -85,7 +85,6 @@ public class Login extends JFrame {
 		setVisible(true);
 	}
 	public User login() {
-		
 		char[] pass = PF_Password.getPassword();
 		currentUser.setUsername(TF_Username.getText());
 		currentUser.setPassword(String.valueOf(pass));

@@ -245,7 +245,7 @@ public class Main extends JFrame {
 		BTN_Exit.setActionCommand("Exit");
 		BTN_Exit.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 25));
 		BTN_Exit.setFocusable(false);
-		BTN_Exit.setBounds(10, 544, 239, 55);
+		BTN_Exit.setBounds(10, 556, 239, 43);
 		BTN_Exit.addActionListener(action);
 		
 		JP_Func.add(BTN_Exit);
@@ -257,7 +257,7 @@ public class Main extends JFrame {
 		BTN_ImportProduct.setFocusable(false);
 		BTN_ImportProduct.setActionCommand("ImportProduct");
 		BTN_ImportProduct.addActionListener(action);
-		BTN_ImportProduct.setBounds(10, 479, 239, 55);
+		BTN_ImportProduct.setBounds(10, 491, 239, 55);
 		JP_Func.add(BTN_ImportProduct);
 		
 		JButton BTN_ManagerUser = new JButton("Quản lý nhân viên");
@@ -274,7 +274,7 @@ public class Main extends JFrame {
 		JButton BTN_ManagerProduct = new JButton("Quản lý kho hàng");
 		BTN_ManagerProduct.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_ManagerProduct.setFocusable(false);
-		BTN_ManagerProduct.setBounds(10, 414, 239, 55);
+		BTN_ManagerProduct.setBounds(10, 426, 239, 55);
 		BTN_ManagerProduct.setActionCommand("ManagerProduct");
 		BTN_ManagerProduct.addActionListener(action);
 		JP_Func.add(BTN_ManagerProduct);

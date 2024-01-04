@@ -29,6 +29,7 @@ public class TransferBank extends JFrame {
 	private Main main;
 	private String stk;
 	private String qrLocation;
+	private String nameBank;
 	public TransferBank(Main main) {
 		loadShopInfo();
 		this.main = main;
@@ -63,7 +64,7 @@ public class TransferBank extends JFrame {
 		JLabel LB_Info = new JLabel("STK: " + stk);
 		LB_Info.setHorizontalAlignment(SwingConstants.CENTER);
 		LB_Info.setFont(new Font("Arial", Font.PLAIN, 15));
-		LB_Info.setBounds(10, 34, 280, 27);
+		LB_Info.setBounds(10, 34, 280, 18);
 		contentPane.add(LB_Info);
 		
 		JButton BTN_TransferSucess = new JButton("Chuyển khoản thành công");
@@ -95,6 +96,13 @@ public class TransferBank extends JFrame {
 		
 		contentPane.add(BTN_Exit);
 		
+		JLabel LB_NameBank = new JLabel("Ngân hàng:");
+		LB_NameBank.setText("Ngân hàng: " + nameBank);
+		LB_NameBank.setHorizontalAlignment(SwingConstants.CENTER);
+		LB_NameBank.setFont(new Font("Arial", Font.PLAIN, 15));
+		LB_NameBank.setBounds(10, 50, 280, 18);
+		contentPane.add(LB_NameBank);
+		
 		setLocationRelativeTo(null);
 		setUndecorated(true);
 		setVisible(true);
@@ -121,8 +129,6 @@ public class TransferBank extends JFrame {
         
         stk = properties.getProperty("stk");
         qrLocation = properties.getProperty("qrlocation");
-        
-        System.out.println(stk + " " + qrLocation);
-        
+        nameBank = properties.getProperty("nameBank");
 	}
 }

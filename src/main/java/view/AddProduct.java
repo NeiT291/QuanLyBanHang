@@ -38,7 +38,7 @@ public class AddProduct extends JFrame {
 	public void Init() {
 		setType(Type.POPUP);
 		setResizable(false);
-		setTitle("Thêm nhân viên");
+		setTitle("Hàng hóa");
 		setSize(600, 310);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

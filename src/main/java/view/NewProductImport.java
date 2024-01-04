@@ -37,7 +37,7 @@ public class NewProductImport extends JFrame {
 	public void Init() {
 		setType(Type.POPUP);
 		setResizable(false);
-		setTitle("Thêm sản phẩm");
+		setTitle("Sản phẩm");
 		setSize(600, 310);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,7 +99,7 @@ public class NewProductImport extends JFrame {
 		TF_Price.setBounds(178, 172, 390, 40);
 		JP_Info.add(TF_Price);
 		
-		JButton BTN_Save = new JButton("Thêm");
+		JButton BTN_Save = new JButton("Lưu");
 		BTN_Save.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 20));
 		BTN_Save.setBounds(235, 222, 101, 41);
 		BTN_Save.setFocusable(false);
