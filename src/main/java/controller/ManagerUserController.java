@@ -1,13 +1,11 @@
 package controller;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.Action;
+import java.awt.event.ActionListener;
 
 import view.ManagerUser;
 
-public class ManagerUserController implements Action{
+public class ManagerUserController implements ActionListener{
 	
 	private ManagerUser view;
 	public ManagerUserController(ManagerUser view) {
@@ -29,42 +27,6 @@ public class ManagerUserController implements Action{
 		}else if(command.equals("Search")) {
 			view.searchUser();
 		}
-	}
-
-	@Override
-	public Object getValue(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void putValue(String key, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEnabled(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

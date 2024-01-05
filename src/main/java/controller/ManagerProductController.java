@@ -1,13 +1,11 @@
 package controller;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.Action;
+import java.awt.event.ActionListener;
 
 import view.ManagerProduct;
 
-public class ManagerProductController implements Action{
+public class ManagerProductController implements ActionListener{
 	
 	private ManagerProduct view;
 	public ManagerProductController(ManagerProduct view) {
@@ -28,41 +26,4 @@ public class ManagerProductController implements Action{
 			view.searchProduct();
 		}
 	}
-
-	@Override
-	public Object getValue(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void putValue(String key, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEnabled(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

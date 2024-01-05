@@ -10,12 +10,12 @@ import model.User;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPasswordField;
 
@@ -42,7 +42,7 @@ public class Login extends JFrame {
 			e.printStackTrace();
 		}
 		
-		Action action = new LoginController(this);
+		ActionListener action = new LoginController(this);
 		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -97,5 +97,8 @@ public class Login extends JFrame {
 			this.dispose();
 		}
 		return currentUser;
+	}
+	public static void main(String[] args) {
+		new Login();
 	}
 }

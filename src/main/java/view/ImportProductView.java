@@ -17,12 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -49,7 +49,7 @@ public class ImportProductView extends JFrame {
 		setTitle("Nhập hàng");
 		setSize(1000, 600);
 		
-		Action action = new ImportProductController(this);
+		ActionListener action = new ImportProductController(this);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
