@@ -47,7 +47,7 @@ public class ManagerProduct extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel LB_Search = new JLabel("Tìm kiếm (mã sản phẩm)");
+		JLabel LB_Search = new JLabel("Tìm kiếm (mã sản phẩm / tên sản phẩm)");
 		LB_Search.setFont(new Font("Arial", Font.PLAIN, 18));
 		LB_Search.setBounds(10, 10, 966, 22);
 		contentPane.add(LB_Search);
@@ -130,15 +130,36 @@ public class ManagerProduct extends JFrame {
 	public void searchProduct() {
 		String infoSearch = TF_Search.getText();
 		
+		String [] listString = infoSearch.split(" ");
+		infoSearch = "";
+		for (String string : listString) {
+			if(string.isEmpty()) {
+				continue;
+			}
+			infoSearch += string + " ";
+		}
+		infoSearch = infoSearch.trim();
+
 		Product productSearch = new Product();
 		productSearch.setIDProduct(infoSearch);
+		productSearch.setNameProduct(infoSearch);
 		
 		Product product;
 		product = ProductDAO.getInstance().selectById(productSearch);
 		
-		
 		if(product.getIDProduct() == null) {
-			JOptionPane.showMessageDialog(null, "Không có sản phẩm", "Thông báo", JOptionPane.INFORMATION_MESSAGE);	
+			ArrayList<Product> listProduct = ProductDAO.getInstance().selectByName(productSearch);
+			if(listProduct.size() == 0) {
+				JOptionPane.showMessageDialog(null, "Không có sản phẩm", "Thông báo", JOptionPane.INFORMATION_MESSAGE);	
+			}
+			for(int i = tableProduct.getRowCount() - 1; i >= 0; i--) {
+				model.removeRow(i);
+			}
+			int count = 0;
+			for (Product i : listProduct) {
+				count++;
+				model.addRow(new Object[] {count, i.getIDProduct(), i.getNameProduct(), i.getQuantity(), i.getPrice()});
+			}
 		}else {
 			for(int i = tableProduct.getRowCount() - 1; i >= 0; i--) {
 				model.removeRow(i);

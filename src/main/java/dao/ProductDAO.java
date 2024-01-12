@@ -132,7 +132,35 @@ public class ProductDAO implements DAOInterface<Product>{
 	
 		return result;
 	}
+	
+	public ArrayList<Product> selectByName(Product t) {
+		ArrayList<Product> result = new ArrayList<Product>();
+		
+		try {
+			Connection c = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM hanghoa Where TenHangHoa LIKE ?";
 
+			PreparedStatement preStatement = c.prepareStatement(sql);
+			
+			preStatement.setString(1, "%"+ t.getNameProduct() + "%");
+			
+			ResultSet rs = preStatement.executeQuery();
+			
+			while(rs.next()) {
+				Product product = new Product();
+				product.setIDProduct(rs.getString("IDHangHoa"));
+				product.setNameProduct(rs.getString("TenHangHoa"));
+				product.setQuantity(rs.getInt("SoLuong"));
+				product.setPrice(rs.getInt("DonGia"));
+				result.add(product);
+			}
+			JDBCUtil.closeConnection(c);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
 	@Override
 	public ArrayList<Product> selectByCondition(String condition) {
 		// TODO Auto-generated method stub

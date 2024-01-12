@@ -106,7 +106,7 @@ public class Main extends JFrame {
 		
 		JP_Search.setLayout(null);
 		
-		JLabel JL_SearchTitle = new JLabel("Tìm kiếm (Mã sản phẩm \\ barcode)");
+		JLabel JL_SearchTitle = new JLabel("Thêm sản phẩm (Mã sản phẩm)");
 		JL_SearchTitle.setBounds(0, 0, 364, 29);
 		JL_SearchTitle.setFont(new Font("Roboto Mono SemiBold", Font.PLAIN, 18));
 		JP_Search.add(JL_SearchTitle);
@@ -329,6 +329,8 @@ public class Main extends JFrame {
 	}
 	public void addProductToTable() {
 		String IDProduct = TF_Search.getText();
+		IDProduct = IDProduct.replace(" ", "");
+		
 		Product product = ProductDAO.getInstance().selectById(new Product(IDProduct));
 
 		if(product.getIDProduct() == null) {

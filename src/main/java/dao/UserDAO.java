@@ -200,6 +200,7 @@ public class UserDAO implements DAOInterface<User> {
 	
 		return result;
 	}
+	
 	public User selectByUsernameAndPassword(User t) {
 		User result = null;
 		try {

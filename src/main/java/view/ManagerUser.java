@@ -158,6 +158,7 @@ public class ManagerUser extends JFrame {
 	}
 	public void searchUser() {
 		String infoSearch = TF_Search.getText();
+		infoSearch = infoSearch.replace(" ", "");
 		
 		User userSearch = new User();
 		userSearch.setId(infoSearch);
